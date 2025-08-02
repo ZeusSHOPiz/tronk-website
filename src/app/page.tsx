@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, PanInfo } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import Image from 'next/image';
+
 
 export default function Home() {
   // Textes pour les interactions - déclarés en premier !
@@ -744,12 +744,10 @@ export default function Home() {
         onMouseDown={unlockAudio}
       >
         <div className="w-64 h-64 relative">
-          <Image 
+          <img 
             src="/images/tronk-logo.png" 
             alt="TRONK" 
-            fill
-            className="troll-hover"
-            style={{ objectFit: 'contain' }}
+            className="w-full h-full object-contain troll-hover"
             draggable={false}
             onDragStart={(e) => e.preventDefault()}
             onDrop={(e) => e.preventDefault()}
