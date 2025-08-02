@@ -89,6 +89,11 @@ export default function Home() {
     return null;
   }); // Audio nucléaire
 
+  // États pour mobile
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+  const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+
   // Refs pour le drag
   const isDraggingRef = useRef(false);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
@@ -163,6 +168,8 @@ export default function Home() {
     }
   }, [audioUnlocked]);
 
+
+
   // Fonction pour mettre à jour le volume
   const updateAudioVolume = useCallback((newVolume: number) => {
     setAudioVolume(newVolume);
@@ -179,6 +186,24 @@ export default function Home() {
       gunshotAudioRef.current.volume = newMuted ? 0 : audioVolume;
     }
   }, [audioMuted, audioVolume]);
+
+  // Fonction pour détecter le mobile
+  const detectMobile = useCallback(() => {
+    const mobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    setIsMobile(mobile);
+  }, []);
+
+  // Fonction pour gérer les événements tactiles
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setTouchStart({ x: touch.clientX, y: touch.clientY });
+    setTouchEnd({ x: touch.clientX, y: touch.clientY });
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    setTouchEnd({ x: touch.clientX, y: touch.clientY });
+  }, []);
 
   // Fonction pour déclencher le bombardement nucléaire
   const triggerNukeMode = useCallback(async () => {
@@ -419,6 +444,9 @@ export default function Home() {
     x.set(centerX);
     y.set(centerY);
 
+    // Détecter le mobile
+    detectMobile();
+    
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMoveGlobal);
     window.addEventListener('scroll', handleScroll);
@@ -428,7 +456,7 @@ export default function Home() {
       window.removeEventListener('mousemove', handleMouseMoveGlobal);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [handleResize, handleMouseMoveGlobal, handleScroll]);
+  }, [handleResize, handleMouseMoveGlobal, handleScroll, detectMobile]);
 
   // Effet séparé pour centrer le logo quand la fenêtre change de taille
   useEffect(() => {
@@ -742,8 +770,41 @@ export default function Home() {
         onMouseEnter={handleLogoHover}
         onMouseLeave={handleLogoLeave}
         onMouseDown={unlockAudio}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={(e) => {
+          if (!isMobile) return;
+          
+          const distanceX = touchStart.x - touchEnd.x;
+          const distanceY = touchStart.y - touchEnd.y;
+          const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+          
+          // Si le swipe est suffisamment rapide, déclencher un lancer
+          if (distance > 50) {
+            // Incrémenter le compteur
+            setThrowCount(prev => {
+              const newCount = prev + 1;
+              if (newCount === 25) {
+                triggerNukeMode();
+              }
+              return newCount;
+            });
+            
+            // Jouer le son
+            playGunshotSound();
+            
+            // Effet visuel de lancer
+            setThrowMode(true);
+            setLogoReaction('scared');
+            
+            setTimeout(() => {
+              setThrowMode(false);
+              setLogoReaction('normal');
+            }, 1000);
+          }
+        }}
       >
-        <div className="w-64 h-64 relative">
+        <div className={`${isMobile ? 'w-48 h-48' : 'w-64 h-64'} relative`}>
           <img 
             src="/test.png" 
             alt="TRONK" 
@@ -758,7 +819,7 @@ export default function Home() {
 
       {/* Troll Title */}
       <motion.h1
-        className="absolute top-10 left-1/2 transform -translate-x-1/2 text-6xl font-bold text-black troll-text"
+        className={`absolute top-10 left-1/2 transform -translate-x-1/2 ${isMobile ? 'text-4xl' : 'text-6xl'} font-bold text-black troll-text`}
         animate={{ 
           scale: [1, 1.2, 1],
           rotate: [0, 5, -5, 0]
@@ -774,7 +835,7 @@ export default function Home() {
 
       {/* Troll Subtitle */}
       <motion.p
-        className="absolute top-32 left-1/2 transform -translate-x-1/2 text-2xl text-black font-bold"
+        className={`absolute top-32 left-1/2 transform -translate-x-1/2 ${isMobile ? 'text-lg px-4 text-center' : 'text-2xl'} text-black font-bold`}
         animate={{ 
           x: [0, 10, -10, 0],
           opacity: [1, 0.5, 1]
@@ -790,7 +851,7 @@ export default function Home() {
 
       {/* Troll Buttons - bouton buy sans rotation */}
       <motion.button
-        className="absolute bg-red-500 text-white px-8 py-4 rounded-full text-xl font-bold troll-button z-30"
+        className={`absolute bg-red-500 text-white ${isMobile ? 'px-4 py-2 text-sm' : 'px-8 py-4 text-xl'} rounded-full font-bold troll-button z-30`}
         style={{
           x: buttonPosition.x,
           y: buttonPosition.y,
@@ -811,7 +872,7 @@ export default function Home() {
       </motion.button>
 
       <motion.button
-        className="absolute bottom-20 right-1/4 bg-blue-500 text-white px-8 py-4 rounded-full text-xl font-bold troll-button"
+        className={`absolute bottom-20 right-1/4 bg-blue-500 text-white ${isMobile ? 'px-4 py-2 text-sm' : 'px-8 py-4 text-xl'} rounded-full font-bold troll-button`}
         whileHover={{ 
           scale: 1.1,
           rotate: 180,
@@ -875,7 +936,7 @@ export default function Home() {
       {/* Compteur de lancers en haut à droite */}
       {throwCount > 0 && (
         <motion.div
-          className="fixed top-5 right-5 z-50"
+          className={`fixed ${isMobile ? 'top-2 right-2' : 'top-5 right-5'} z-50`}
           animate={{ 
             opacity: [0.8, 1, 0.8],
           }}
@@ -886,7 +947,7 @@ export default function Home() {
           }}
         >
           <motion.span
-            className={`text-8xl font-black ${getThrowCountEffects().color}`}
+            className={`${isMobile ? 'text-4xl' : 'text-8xl'} font-black ${getThrowCountEffects().color}`}
             animate={getThrowCountEffects().animation}
             transition={{ 
               duration: getThrowCountEffects().duration,
@@ -905,7 +966,7 @@ export default function Home() {
 
       {/* Instructions de drag */}
       <motion.div
-        className="fixed top-5 left-5 text-lg font-bold text-black z-50 bg-yellow-300 p-3 rounded-lg border-2 border-black"
+        className={`fixed ${isMobile ? 'top-2 left-2 right-2 text-sm' : 'top-5 left-5 text-lg'} font-bold text-black z-50 bg-yellow-300 p-3 rounded-lg border-2 border-black`}
         animate={{ 
           opacity: [0.7, 1, 0.7],
           scale: [1, 1.05, 1]
@@ -916,7 +977,7 @@ export default function Home() {
           ease: "easeInOut"
         }}
       >
-        🎮 CLICK & DRAG TRONK TO THROW HIM!
+        {isMobile ? '📱 SWIPE TRONK TO THROW HIM!' : '🎮 CLICK & DRAG TRONK TO THROW HIM!'}
         <br />
         
 
