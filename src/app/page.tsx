@@ -77,7 +77,7 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [throwMode, setThrowMode] = useState(false);
-  const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const [audioUnlocked, setAudioUnlocked] = useState(true); // Audio activé par défaut
   const [audioVolume, setAudioVolume] = useState(0.1); // Volume de base à 10%
   const [audioMuted, setAudioMuted] = useState(false);
   const [throwCount, setThrowCount] = useState(0); // Compteur de lancers
@@ -769,7 +769,7 @@ export default function Home() {
         onClick={handleLogoClick}
         onMouseEnter={handleLogoHover}
         onMouseLeave={handleLogoLeave}
-        onMouseDown={unlockAudio}
+
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={(e) => {
@@ -964,63 +964,7 @@ export default function Home() {
         </motion.div>
       )}
 
-      {/* Instructions de drag */}
-      <motion.div
-        className={`fixed ${isMobile ? 'top-2 left-2 right-2 text-sm' : 'top-5 left-5 text-lg'} font-bold text-black z-50 bg-yellow-300 p-3 rounded-lg border-2 border-black`}
-        animate={{ 
-          opacity: [0.7, 1, 0.7],
-          scale: [1, 1.05, 1]
-        }}
-        transition={{ 
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {isMobile ? '📱 SWIPE TRONK TO THROW HIM!' : '🎮 CLICK & DRAG TRONK TO THROW HIM!'}
-        <br />
-        
 
-        <button 
-          onClick={() => {
-            if (!audioUnlocked) {
-              unlockAudio();
-            } else {
-              playGunshotSound();
-            }
-          }}
-          className="mt-2 bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
-        >
-          🔫 {audioUnlocked ? 'TEST SOUND' : 'UNLOCK AUDIO'}
-        </button>
-        
-        {/* Contrôles audio */}
-        {audioUnlocked && (
-          <div className="mt-3 space-y-2">
-            <div className="flex items-center gap-2">
-              <button 
-                onClick={toggleAudioMute}
-                className={`px-2 py-1 rounded text-xs ${audioMuted ? 'bg-gray-500' : 'bg-green-500'} text-white hover:opacity-80`}
-              >
-                {audioMuted ? '🔇' : '🔊'}
-              </button>
-              <span className="text-xs text-black">Volume: {Math.round(audioVolume * 100)}%</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={audioVolume}
-              onChange={(e) => updateAudioVolume(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-              style={{
-                background: `linear-gradient(to right, #4ade80 0%, #4ade80 ${audioVolume * 100}%, #e5e7eb ${audioVolume * 100}%, #e5e7eb 100%)`
-              }}
-            />
-          </div>
-        )}
-      </motion.div>
 
       {/* Effet de bombardement nucléaire */}
       {nukeMode && (
