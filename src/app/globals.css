@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Troll Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS:wght@400;700&display=swap');
+
+/* Reset de base */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: #FFDD00;
+  font-family: 'Comic Sans MS', 'Luckiest Guy', cursive;
+}
+
+/* Troll Animations */
+@keyframes troll-bounce {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+  50% {
+    transform: translateY(-40px) rotate(-5deg);
+  }
+  75% {
+    transform: translateY(-20px) rotate(3deg);
+  }
+}
+
+@keyframes troll-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes troll-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes troll-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes troll-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-30px) rotate(180deg);
+  }
+}
+
+@keyframes troll-glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Troll Classes */
+.troll-bounce {
+  animation: troll-bounce 2s ease-in-out infinite;
+}
+
+.troll-shake {
+  animation: troll-shake 0.5s ease-in-out infinite;
+}
+
+.troll-spin {
+  animation: troll-spin 3s linear infinite;
+}
+
+.troll-pulse {
+  animation: troll-pulse 1s ease-in-out infinite;
+}
+
+.troll-float {
+  animation: troll-float 4s ease-in-out infinite;
+}
+
+.troll-glitch {
+  animation: troll-glitch 0.3s ease-in-out infinite;
+}
+
+/* Troll Hover Effects */
+.troll-hover:hover {
+  transform: scale(1.2) rotate(10deg);
+  filter: hue-rotate(90deg);
+  transition: all 0.3s ease;
+}
+
+.troll-button {
+  position: relative;
+  transition: all 0.1s ease;
+}
+
+.troll-button:hover {
+  transform: translateX(20px) scale(1.1);
+  filter: brightness(1.5) hue-rotate(180deg);
+}
+
+/* Troll Text Effects */
+.troll-text {
+  text-shadow: 
+    2px 2px 0 #000,
+    -2px -2px 0 #fff,
+    4px 4px 0 #ff0000;
+}
+
+.troll-text-glow {
+  text-shadow: 
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 30px #ff0000,
+    0 0 40px #ff0000;
+}
+
+/* Troll Background */
+.troll-bg {
+  background: linear-gradient(45deg, #FFDD00, #FF6B6B, #4ECDC4, #45B7D1);
+  background-size: 400% 400%;
+  animation: troll-gradient 3s ease infinite;
+}
+
+@keyframes troll-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Troll Scrollbar */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFDD00;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #ffff00, #ff00ff, #00ffff);
+}
+
+/* Troll Cursor */
+body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="%23ff0000"/></svg>') 10 10, auto;
+}
+
+/* Troll Selection */
+::selection {
+  background: #ff0000;
+  color: #ffff00;
+}
+
+/* Troll Focus */
+*:focus {
+  outline: 3px solid #ff0000;
+  outline-offset: 2px;
+}
+
+/* Troll Loading */
+.troll-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  color: #000;
+  z-index: 9999;
+}
+
+/* Troll Error */
+.troll-error {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #ff0000;
+  color: #fff;
+  padding: 10px;
+  border: 3px solid #000;
+  font-family: 'Comic Sans MS', cursive;
+  z-index: 10000;
+  animation: troll-shake 0.5s ease-in-out infinite;
+}
+
+/* Troll Random Text */
+.troll-random-text {
+  position: absolute;
+  font-size: 1.5rem;
+  color: #000;
+  font-weight: bold;
+  text-shadow: 2px 2px 0 #fff;
+  pointer-events: none;
+  z-index: 100;
+}
