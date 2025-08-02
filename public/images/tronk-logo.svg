@@ -1,0 +1,44 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond jaune -->
+  <circle cx="100" cy="100" r="95" fill="#fbbf24" stroke="#000" stroke-width="2"/>
+  
+  <!-- Tête du renard/Shiba -->
+  <ellipse cx="100" cy="90" rx="60" ry="50" fill="#f97316"/>
+  
+  <!-- Museau plus clair -->
+  <ellipse cx="100" cy="110" rx="25" ry="20" fill="#fed7aa"/>
+  
+  <!-- Oreilles -->
+  <ellipse cx="70" cy="60" rx="15" ry="25" fill="#f97316" transform="rotate(-20 70 60)"/>
+  <ellipse cx="130" cy="60" rx="15" ry="25" fill="#f97316" transform="rotate(20 130 60)"/>
+  
+  <!-- Intérieur des oreilles -->
+  <ellipse cx="70" cy="60" rx="8" ry="15" fill="#fed7aa" transform="rotate(-20 70 60)"/>
+  <ellipse cx="130" cy="60" rx="8" ry="15" fill="#fed7aa" transform="rotate(20 130 60)"/>
+  
+  <!-- Lunettes de soleil -->
+  <rect x="60" y="75" width="30" height="20" rx="5" fill="#000"/>
+  <rect x="110" y="75" width="30" height="20" rx="5" fill="#000"/>
+  <rect x="90" y="80" width="20" height="10" fill="#000"/>
+  
+  <!-- Verres des lunettes -->
+  <rect x="62" y="77" width="26" height="16" rx="3" fill="#6b7280"/>
+  <rect x="112" y="77" width="26" height="16" rx="3" fill="#6b7280"/>
+  
+  <!-- Sourire large -->
+  <path d="M 70 120 Q 100 140 130 120" stroke="#000" stroke-width="3" fill="none"/>
+  
+  <!-- Dents -->
+  <rect x="75" y="115" width="4" height="8" fill="#fff"/>
+  <rect x="85" y="115" width="4" height="8" fill="#fff"/>
+  <rect x="95" y="115" width="4" height="8" fill="#fff"/>
+  <rect x="105" y="115" width="4" height="8" fill="#fff"/>
+  <rect x="115" y="115" width="4" height="8" fill="#fff"/>
+  <rect x="125" y="115" width="4" height="8" fill="#fff"/>
+  
+  <!-- Nez -->
+  <ellipse cx="100" cy="105" rx="3" ry="2" fill="#000"/>
+  
+  <!-- Contours pour accentuer le sourire -->
+  <path d="M 65 125 Q 100 145 135 125" stroke="#000" stroke-width="1" fill="none" opacity="0.5"/>
+</svg> 
