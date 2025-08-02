@@ -745,7 +745,7 @@ export default function Home() {
       >
         <div className="w-64 h-64 relative">
           <img 
-            src="/images/tronk-logo.png" 
+            src="/tronk.png" 
             alt="TRONK" 
             className="w-full h-full object-contain troll-hover"
             draggable={false}
